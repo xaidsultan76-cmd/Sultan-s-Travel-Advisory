@@ -1,0 +1,6 @@
+{
+  "name": "Sultan's Travel Advisory",
+  "description": "Comprehensive Travel Advisory visa status checker with 200+ countries, 200+ universities international exchange database, and 200+ destinations/landmarks.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

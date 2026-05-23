@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sultan's Travel Advisory - Web Companion Portal</title>
+    
+    <!-- Tailwind CSS CDN for reactive layout rendering -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Material Symbols Outlined for pristine vector icons support -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+    
+    <!-- Custom styling triggers enabling seamless dark/light style blends -->
+    <style>
+        /* Modern backdrop-blur transitions */
+        .glass-card {
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+    </style>
+</head>
+<body class="min-h-screen transition-colors duration-500 font-sans bg-[#0D0F16] text-slate-100">
+
+    <!-- 1. TOP UTILITY HEADER SECTION -->
+    <header class="sticky top-0 z-40 border-b border-slate-800/40 bg-slate-900/80 backdrop-blur-md glass-card py-4 px-4 sm:px-8 shadow-sm">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+            
+            <!-- Branding block -->
+            <div class="flex items-center gap-3.5">
+                <div class="relative w-12 h-12 flex items-center justify-center bg-gradient-to-tr from-indigo-600 to-violet-500 text-white rounded-xl shadow-xl ring-4 ring-indigo-500/20">
+                    <!-- School mortarboard icon -->
+                    <span class="material-symbols-outlined text-2xl">school</span>
+                    <!-- Nested flight badge -->
+                    <div class="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-slate-900 border border-slate-705 flex items-center justify-center text-teal-400 shadow shadow-teal-500/30">
+                        <span class="material-symbols-outlined text-[11px] select-none">flight</span>
+                    </div>
+                </div>
+                <div>
+                    <h1 class="text-xl sm:text-2xl font-black tracking-tight bg-gradient-to-r from-indigo-400 via-sky-400 to-indigo-400 bg-clip-text text-transparent">
+                        Sultan's Travel Advisory
+                    </h1>
+                    <p class="text-xs font-black text-indigo-400 flex items-center mt-0.5 tracking-wider uppercase">
+                        ✈️ For Students, By a Student
+                    </p>
+                </div>
+            </div>
+
+            <!-- Global Live Airline Prices Ticker Control -->
+            <div class="flex flex-wrap items-center gap-4">
+                
+                <!-- Live pricing sync switch -->
+                <div class="flex items-center gap-2 bg-slate-800/30 dark:bg-slate-950/20 px-3.5 py-1.5 rounded-xl border border-slate-700/40">
+                    <div class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" id="tickets-sync-toggle" checked class="sr-only peer">
+                        <div class="w-9 h-5 bg-slate-600 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-emerald-500"></div>
+                    </div>
+                    <span class="text-xs font-bold font-mono tracking-wide">Live Airfares Sync</span>
+                </div>
+
+                <!-- Live Dynamic Palette Selector (4 core Android-matching themes) -->
+                <div class="relative group">
+                    <button class="flex items-center gap-2 bg-indigo-600/10 hover:bg-indigo-600/20 text-indigo-400 px-4 py-2.5 rounded-xl text-xs font-bold transition-all border border-indigo-500/30">
+                        <span class="material-symbols-outlined text-sm">palette</span>
+                        <span>Theme: <b id="active-theme-text-display">Cosmic Slate</b></span>
+                        <span class="material-symbols-outlined text-xs">keyboard_arrow_down</span>
+                    </button>
+                    <!-- Floating dropdown -->
+                    <div class="absolute right-0 mt-2 w-56 bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl p-2.5 hidden group-hover:block hover:block z-50">
+                        <h4 class="text-[10px] uppercase font-bold text-slate-500 px-2.5 py-1">Set Active Palette</h4>
+                        <div class="space-y-1">
+                            <button data-theme-btn="Cosmic Slate" class="w-full flex items-center justify-between text-left text-xs font-bold px-2.5 py-2 hover:bg-slate-800 text-slate-100 rounded-lg">
+                                <span class="flex items-center gap-2">
+                                    <span class="w-3 h-3 bg-blue-500 rounded-full inline-block"></span>
+                                    Cosmic Slate
+                                </span>
+                                <span class="text-[9px] opacity-65">Dark</span>
+                            </button>
+                            <button data-theme-btn="Samsung Aura" class="w-full flex items-center justify-between text-left text-xs font-bold px-2.5 py-2 hover:bg-slate-800 text-slate-300 rounded-lg">
+                                <span class="flex items-center gap-2">
+                                    <span class="w-3 h-3 bg-purple-500 rounded-full inline-block"></span>
+                                    Samsung Aura
+                                </span>
+                                <span class="text-[9px] opacity-65">Aura</span>
+                            </button>
+                            <button data-theme-btn="Emerald Horizon" class="w-full flex items-center justify-between text-left text-xs font-bold px-2.5 py-2 hover:bg-slate-800 text-slate-800 dark:text-slate-200 rounded-lg">
+                                <span class="flex items-center gap-2">
+                                    <span class="w-3 h-3 bg-[#059669] rounded-full inline-block"></span>
+                                    Emerald Horizon
+                                </span>
+                                <span class="text-[9px] opacity-65">Light Teal</span>
+                            </button>
+                            <button data-theme-btn="Sunset Scholar" class="w-full flex items-center justify-between text-left text-xs font-bold px-2.5 py-2 hover:bg-slate-800 text-orange-950 dark:text-[#EA580C] rounded-lg">
+                                <span class="flex items-center gap-2">
+                                    <span class="w-3 h-3 bg-[#EA580C] rounded-full inline-block"></span>
+                                    Sunset Scholar
+                                </span>
+                                <span class="text-[9px] opacity-65">Terracotta</span>
+                            </button>
+                            <button data-theme-btn="Arctic Frost" class="w-full flex items-center justify-between text-left text-xs font-bold px-2.5 py-2 hover:bg-slate-800 text-sky-950 dark:text-[#0EA5E9] rounded-lg">
+                                <span class="flex items-center gap-2">
+                                    <span class="w-3 h-3 bg-[#0EA5E9] rounded-full inline-block"></span>
+                                    Arctic Frost
+                                </span>
+                                <span class="text-[9px] opacity-65">Ice Light</span>
+                            </button>
+                            <button data-theme-btn="Midnight Rose" class="w-full flex items-center justify-between text-left text-xs font-bold px-2.5 py-2 hover:bg-slate-800 text-rose-950 dark:text-[#F43F5E] rounded-lg">
+                                <span class="flex items-center gap-2">
+                                    <span class="w-3 h-3 bg-[#F43F5E] rounded-full inline-block"></span>
+                                    Midnight Rose
+                                </span>
+                                <span class="text-[9px] opacity-65">Rose Dark</span>
+                            </button>
+                            <button data-theme-btn="Onyx Jetblack" class="w-full flex items-center justify-between text-left text-xs font-bold px-2.5 py-2 hover:bg-slate-800 text-zinc-950 dark:text-[#00FF87] rounded-lg">
+                                <span class="flex items-center gap-2">
+                                    <span class="w-3 h-3 bg-[#00FF87] rounded-full inline-block"></span>
+                                    Onyx Jetblack
+                                </span>
+                                <span class="text-[9px] opacity-65">OLED Black</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </header>
+
+    <!-- 2. FLIGHT DEALS PRICE TICKER DASHBOARD -->
+    <section class="border-b border-slate-800/40 bg-slate-950/40 backdrop-blur py-5 px-4 sm:px-8">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex justify-between items-center mb-3">
+                <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-sm text-[#059669]">flight_land</span>
+                    <h3 class="text-xs uppercase font-mono tracking-wider font-extrabold opacity-70">
+                        Live Airfares ticker & empty Seat tracker
+                    </h3>
+                </div>
+                <!-- Mini Sync Light indicator -->
+                <div class="flex items-center gap-1.5 text-xs opacity-70 font-mono">
+                    <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse inline-block"></span>
+                    <span>Synchronized dynamically</span>
+                </div>
+            </div>
+            
+            <!-- Flight list container parent -->
+            <div id="flight-deal-ticker-container">
+                <!-- Injected via JavaScript dynamically -->
+                <div class="text-center py-4 text-xs text-slate-400">Loading live global tickets ticker...</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. CENTRAL WORKSPACE COMPONENT (Navigation Navigation + Responsive Tab Workspace) -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-8 py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+            
+            <!-- Sidebar Navigation panel -->
+            <div class="space-y-6 lg:sticky lg:top-24">
+                <div class="p-5 rounded-2xl bg-slate-900/60 border border-slate-800/40 shadow-xl overflow-hidden relative">
+                    <div class="absolute -left-10 -bottom-10 w-28 h-28 bg-[#3B82F6]/5 rounded-full blur-xl"></div>
+                    <h3 class="text-xs font-extrabold uppercase opacity-55 tracking-widest mb-4">Workspace Index</h3>
+                    
+                    <nav class="space-y-1.5" id="sidebar-tab-navigation">
+                        <!-- Tab button: Advisories -->
+                        <button data-tab-trigger="advisories" class="flex flex-col md:flex-row items-center gap-2 px-3 py-2 text-xs font-extrabold transition-all rounded-xl bg-indigo-600 text-white shadow-md w-full text-left">
+                            <span class="material-symbols-outlined text-lg">gavel</span>
+                            <span class="tracking-wide">Advisories & Visas</span>
+                        </button>
+                        
+                        <!-- Tab button: Universities -->
+                        <button data-tab-trigger="universities" class="flex flex-col md:flex-row items-center gap-2 px-3 py-2 text-xs font-bold opacity-60 hover:opacity-100 transition-all rounded-xl w-full text-left">
+                            <span class="material-symbols-outlined text-lg">school</span>
+                            <span class="tracking-wide">Exchange Partners</span>
+                        </button>
+                        
+                        <!-- Tab button: Sights Directory -->
+                        <button data-tab-trigger="landmarks" class="flex flex-col md:flex-row items-center gap-2 px-3 py-2 text-xs font-bold opacity-60 hover:opacity-100 transition-all rounded-xl w-full text-left">
+                            <span class="material-symbols-outlined text-lg">discover_tune</span>
+                            <span class="tracking-wide">Landmarks Discovery</span>
+                        </button>
+                        
+                        <!-- Tab button: Student Guide -->
+                        <button data-tab-trigger="guide" class="flex flex-col md:flex-row items-center gap-2 px-3 py-2 text-xs font-bold opacity-60 hover:opacity-100 transition-all rounded-xl w-full text-left">
+                            <span class="material-symbols-outlined text-lg">menu_book</span>
+                            <span class="tracking-wide">Travel Strategy Manual</span>
+                        </button>
+                        
+                        <!-- Tab button: Calculators Hub -->
+                        <button data-tab-trigger="hub" class="flex flex-col md:flex-row items-center gap-2 px-3 py-2 text-xs font-bold opacity-60 hover:opacity-100 transition-all rounded-xl w-full text-left">
+                            <span class="material-symbols-outlined text-lg">calculate</span>
+                            <span class="tracking-wide">Expense Estimator</span>
+                        </button>
+                    </nav>
+                </div>
+                
+                <!-- Quick Compliance Summary -->
+                <div class="p-5 rounded-2xl bg-slate-900/40 border border-slate-800/40 text-xs shadow">
+                    <h3 class="font-bold flex items-center text-teal-400 mb-2">
+                        <span class="material-symbols-outlined text-base mr-1.5 text-teal-400">verified</span>
+                        Gala Store Compatible
+                    </h3>
+                    <p class="leading-relaxed opacity-80 text-[11px]">
+                        The codebase bundle matches all Samsung seller portal parameters like gesture window offsets, biometric custom inputs, offline caching sandbox, and precise dynamic layouts.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Content Workspace panel -->
+            <div class="lg:col-span-3">
+                <div id="tab-section-content" class="min-h-[500px]">
+                    <!-- Injected by JavaScript dynamically -->
+                    <div class="text-center py-12 text-slate-400">Workspace contents bootstrapping...</div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- 4. COMPREHENSIVE FOOTER COMPONENT -->
+    <footer class="border-t border-slate-800/40 bg-slate-950/60 text-slate-400 text-xs py-8 px-4 sm:px-8 mt-16">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="text-center md:text-left">
+                <p class="font-bold text-slate-300">Sultan's Travel Advisory &amp; Scholastic Study App</p>
+                <p class="text-[10px] opacity-75 mt-0.5">&copy; 2026 Sovereign Portal. Built with HTML5 + Tailwind + Vanilla ES6.</p>
+            </div>
+            
+            <div class="flex gap-4">
+                <span class="text-xs font-semibold px-2 py-1 rounded bg-slate-800 border border-slate-700/60">Fully Offline Encrypted</span>
+                <span class="text-xs font-semibold px-2 py-1 rounded bg-slate-800 border border-slate-700/60">Sovereign State Sandboxed</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Linked Workspace Script Engine -->
+    <script src="app.js"></script>
+</body>
+</html>
